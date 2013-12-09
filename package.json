@@ -19,7 +19,8 @@
 		"node-uuid": "*",
 		"node-html-encoder": "*",
 		"ws": "*",
-		"cheerio": "*"
+		"cheerio": "*",
+		"uuid"
 	},
 	"repository": {
 		"type": "git",
