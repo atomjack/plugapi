@@ -20,7 +20,8 @@
 		"node-html-encoder": "*",
 		"ws": "*",
 		"cheerio": "*",
-		"uuid"
+		"uuid": "*",
+		"request": "2.27.0"
 	},
 	"repository": {
 		"type": "git",
