@@ -12,9 +12,9 @@ You'll need a few npm packages first. Run the following:
 ```cd plugapi```
 ```npm install```
 
-There was recently an update to the request package which broke something the API is doing, so for now you need to specify version 2.27.0 as above or else you will get an error like "TypeError: Cannot call method 'filter' of undefined" at "plugapi/src/client.js:107:29"
+To connect, save the code below as bot.js one directory above this /plugapi/ folder. Then run 
 
-To connect, do this!
+```node bot.js```
 
 ```
 var PlugAPI = require('./plugapi'); // git clone (or unzip) into the same directory as your .js file. There should be plugapi/package.json, for example (and other files)
