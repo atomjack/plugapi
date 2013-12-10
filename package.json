@@ -13,6 +13,10 @@
 		{
 			"name": "Chris Bellew",
 			"email": "atomjack@gmail.com"
+		},
+		{
+			"name": "Psykoral",
+			"url": "https://github.com/psykoral"
 		}
 	],
 	"description": "Generic API for building Plug.dj bots",
@@ -22,10 +26,11 @@
 		"coffee-script": "*",
 		"node-uuid": "*",
 		"node-html-encoder": "*",
-		"uuid": "*",
-		"cheerio": "*",
 		"ws": "*",
-		"request": "*"
+		"cheerio": "*",
+		"uuid": "*",
+		"request": "*",
+		"plug-dj-login": "*"
 	},
 	"repository": {
 		"type": "git",
