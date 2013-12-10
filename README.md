@@ -8,15 +8,11 @@ A generic API for creating Plug.dj bots
 Due to a Plug update, the original version of PlugAPI from npm no longer works. You will have to use this fork for now.
 
 You'll need a few npm packages first. Run the following:
-<<<<<<< HEAD
 
-```npm install node-uuid request uuid node-html-encoder cheerio ws```
-=======
 ```cd plugapi```
 ```npm install```
 
 There was recently an update to the request package which broke something the API is doing, so for now you need to specify version 2.27.0 as above or else you will get an error like "TypeError: Cannot call method 'filter' of undefined" at "plugapi/src/client.js:107:29"
->>>>>>> dfa69fd15f3da6834271c932b0029041c33757e4
 
 To connect, do this!
 
