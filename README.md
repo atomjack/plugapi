@@ -456,7 +456,7 @@ Leave the DJ booth.
 ```
 bot.leaveBooth();
 ```
-#### removeDj: (userid [, callback:fn ])
+#### removeDJ: (userid [, callback:fn ])
 
 Removes a DJ from the DJ booth if possible. The user has to be in the booth and you need the permission to remove DJs from the booth.
 
@@ -467,6 +467,24 @@ Removes a DJ from the DJ booth if possible. The user has to be in the booth and 
 *<small>This is not a parameter!</small>*
 ```
 bot.removeDJ('xxxxxxxxxxxxxxxxxxxxxxxx');
+```
+#### moveDJ: (userid, position [, callback:fn ])
+
+Moves a DJ to a new position in the waitlist.  Waitlist numbering beings with position 1.
+
+##### userid
+*<small>string (required)</small>*
+
+##### position
+*<small>integer (required, range: 1-50)</small>*
+
+##### callback
+*<small>callback (optional)</small>*
+
+##### Example
+*<small>This is not a parameter!</small>*
+```
+bot.moveDJ('xxxxxxxxxxxxxxxxxxxxxxxx',4);
 ```
 #### skipSong: ([ callback:fn ])
 
@@ -669,4 +687,3 @@ Example:
 		// 'msg' is whatever was entered by the user in the telnet session
 	});
 ```
-
