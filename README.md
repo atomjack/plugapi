@@ -398,7 +398,7 @@ Leave the DJ booth.
 ```
 bot.leaveBooth();
 ```
-#### removeDj: (userid [, callback:fn ])
+#### removeDJ: (userid [, callback:fn ])
 
 Removes a DJ from the DJ booth if possible. The user has to be in the booth and you need the permission to remove DJs from the booth.
 
@@ -410,7 +410,7 @@ Removes a DJ from the DJ booth if possible. The user has to be in the booth and 
 ```
 bot.removeDJ('xxxxxxxxxxxxxxxxxxxxxxxx');
 ```
-#### moveDj: (userid, position [, callback:fn ])
+#### moveDJ: (userid, position [, callback:fn ])
 
 Moves a DJ to a new position in the waitlist.  Waitlist numbering beings with position 1.
 
