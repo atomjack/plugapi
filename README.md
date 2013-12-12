@@ -589,8 +589,6 @@ The logger object must have a function called "log" that takes any number of par
 var prompt = new Prompt();
 bot.setLogObject(prompt);
 ```
-<<<<<<< HEAD
-=======
 
 #### Multi line chat
 Since Plug.dj cuts off chat messages at 250 characters, you can choose to have your bot split up chat messages into multiple lines:
@@ -600,4 +598,3 @@ var bot = new PlugAPI(auth, UPDATECODE);
 bot.multiLine = true; // Set to true to enable multiline chat. Default is false
 bot.multiLineLimit = 5; // Set to the maximum number of lines the bot should split messages up into. Any text beyond this number will just be omitted. Default is 5.
 ```
->>>>>>> upstream/master
