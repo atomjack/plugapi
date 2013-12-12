@@ -410,6 +410,24 @@ Removes a DJ from the DJ booth if possible. The user has to be in the booth and 
 ```
 bot.removeDJ('xxxxxxxxxxxxxxxxxxxxxxxx');
 ```
+#### moveDj: (userid, position [, callback:fn ])
+
+Moves a DJ to a new position in the waitlist.  Waitlist numbering beings with position 1.
+
+##### userid
+*<small>string (required)</small>*
+
+##### position
+*<small>integer (required, range: 1-50)</small>*
+
+##### callback
+*<small>callback (optional)</small>*
+
+##### Example
+*<small>This is not a parameter!</small>*
+```
+bot.moveDJ('xxxxxxxxxxxxxxxxxxxxxxxx',4);
+```
 #### skipSong: ([ callback:fn ])
 
 Skips the current song. You need to be DJ or have the permission to skip a song.
