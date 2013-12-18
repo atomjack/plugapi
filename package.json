@@ -27,6 +27,9 @@
 		"ws": "*",
 		"request": "*"
 	},
+	"optionalDependencies": {
+		"querystring": "*"
+	},
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/chrisinajar/plugapi"

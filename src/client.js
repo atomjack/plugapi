@@ -77,26 +77,32 @@
 
       this.joinRoom = __bind(this.joinRoom, this);
 
-	  this.createPlaylist = __bind(this.createPlaylist, this);
+      this.createPlaylist = __bind(this.createPlaylist, this);
 	  
-	  this.addSongToPlaylist = __bind(this.addSongToPlaylist, this);
-	  
-	  this.getPlaylists = __bind(this.getPlaylists, this);
+      this.addSongToPlaylist = __bind(this.addSongToPlaylist, this);
 
-	  this.activatePlaylist = __bind(this.activatePlaylist, this);
+      this.getPlaylists = __bind(this.getPlaylists, this);
 
-	  this.playlistMoveSong = __bind(this.playlistMoveSong, this);
+      this.activatePlaylist = __bind(this.activatePlaylist, this);
 
+      this.playlistMoveSong = __bind(this.playlistMoveSong, this);
+
+      this.getDJHistory = __bind(this.getDJHistory, this);
+      
+      this.fanUser = __bind(this.fanUser, this);
+      
       this.dataHandler = __bind(this.dataHandler, this);
 
       this.ws = null;
 	  
-	  this.multiLine = false;
-	  
-	  this.multiLineLimit = 5;
-	  
-	  this.updateCode = updateCode != undefined ? updateCode : '$&2h72=^^@jdBf_n!`-38UHs';
-	  
+      this.multiLine = false;
+
+      this.multiLineLimit = 5;
+
+      this.roomId = false;
+
+      this.updateCode = updateCode != undefined ? updateCode : '$&2h72=^^@jdBf_n!`-38UHs';
+
       if (!key) {
         throw new Error("You must pass the authentication cookie into the PlugAPI object to connect correctly");
       }
@@ -104,22 +110,22 @@
       this.room = new Room();
     }
 	
-	PlugAPI.getAuth = function(creds, callback) {
-		var plugLogin = require('plug-dj-login');
-		plugLogin(creds, function(err, cookie) {
-			if(err) {
-				if(typeof callback == 'function')
-					callback(err, null);
-				return;
-			}
-			
-			var cookieVal = cookie.value;
-			cookieVal = cookieVal.replace(/^\"/, "").replace(/\"$/, "");
-			if(typeof callback == 'function') {
-				callback(err, cookieVal);
-			}
-		});
-	};
+    PlugAPI.getAuth = function(creds, callback) {
+      var plugLogin = require('plug-dj-login');
+      plugLogin(creds, function(err, cookie) {
+        if(err) {
+          if(typeof callback == 'function')
+            callback(err, null);
+          return;
+        }
+
+        var cookieVal = cookie.value;
+        cookieVal = cookieVal.replace(/^\"/, "").replace(/\"$/, "");
+        if(typeof callback == 'function') {
+          callback(err, cookieVal);
+        }
+      });
+    };
 
     PlugAPI.prototype.setLogObject = function(c) {
       return logger = c;
@@ -349,6 +355,7 @@
 
     PlugAPI.prototype.initRoom = function(data, callback) {
       this.room.reset();
+	  this.roomId = data.room.id;
 	  this.historyID = data.room.historyID;
       this.room.setUsers(data.room.users);
       this.room.setStaff(data.room.staff);
@@ -460,6 +467,34 @@
     PlugAPI.prototype.leaveBooth = function(callback) {
       return this.sendRPC("booth.leave", [], callback);
     };
+	
+    PlugAPI.prototype.lockBooth = function(arg1, arg2) {
+      var clear = false;
+      var callback = false;
+      if(typeof arg1 == 'function') {
+        callback = arg1;
+      } else {
+        clear = arg1;
+        if(typeof arg2 == 'function') {
+          callback = arg2;
+        }
+      }
+        return this.sendRPC("room.lock_booth", [this.roomId, true, clear], callback);
+    }
+
+    PlugAPI.prototype.unlockBooth = function(arg1, arg2) {
+      var clear = false;
+      var callback = false;
+      if(typeof arg1 == 'function') {
+        callback = arg1;
+      } else {
+        clear = arg1;
+        if(typeof arg2 == 'function') {
+          callback = arg2;
+        }
+      }
+        return this.sendRPC("room.lock_booth", [this.roomId, false, clear], callback);
+    }
 
     PlugAPI.prototype.removeDj = function(userid, callback) {
       return this.sendRPC("moderate.remove_dj", userid, callback);
@@ -564,57 +599,70 @@
     };
 
     PlugAPI.prototype.createPlaylist = function(name, callback) {
-		return this.sendRPC("playlist.create", name, callback);
-	};
-	
+      return this.sendRPC("playlist.create", name, callback);
+    };
+
     PlugAPI.prototype.addSongToPlaylist = function(playlistId, songid, callback) {
-		return this.sendRPC("playlist.media.insert", [playlistId, null, -1, [songid]], callback);
+      return this.sendRPC("playlist.media.insert", [playlistId, null, -1, [songid]], callback);
     };
-	
+
     PlugAPI.prototype.getPlaylists = function(callback) {
-		var date = new Date(0).toISOString().replace('T', ' ');
-		return this.sendRPC("playlist.select", [date, null, 100, null], callback);
+      var date = new Date(0).toISOString().replace('T', ' ');
+      return this.sendRPC("playlist.select", [date, null, 100, null], callback);
+    };
+
+    PlugAPI.prototype.activatePlaylist = function(playlist_id, callback) {
+      return this.sendRPC("playlist.activate", [playlist_id], callback);
+    };
+
+    PlugAPI.prototype.playlistMoveSong = function(playlist, song_id, position, callback) {
+      return this.sendRPC("playlist.media.move", [playlist.id, playlist.items[position], [song_id]], callback);
+    };
+
+    PlugAPI.prototype.getDJHistory = function(room, callback) {
+      return this.sendRPC("history.select", room, callback);
+    };
+
+    PlugAPI.prototype.fanUser = function(userid, callback) {
+      return this.sendRPC("user.follow", userid, callback);
+    };
+
+    PlugAPI.prototype.unfanUser = function(userid, callback) {
+      return this.sendRPC("user.unfollow", userid, callback);
     };
 	
-	PlugAPI.prototype.activatePlaylist = function(playlist_id, callback) {
-		return this.sendRPC("playlist.activate", [playlist_id], callback);
-	};
-	
-	PlugAPI.prototype.playlistMoveSong = function(playlist, song_id, position, callback) {
-		return this.sendRPC("playlist.media.move", [playlist.id, playlist.items[position], [song_id]], callback);
-	};
-	
-	PlugAPI.prototype.listen = function (port, address) {
-		var self = this;
-		http.createServer(function (req, res) {
-		  var dataStr = '';
-		  req.on('data', function (chunk) {
-			dataStr += chunk.toString();
-		  });
-		  req.on('end', function () {
-			var data = querystring.parse(dataStr);
-			req._POST = data;
-			self.emit('httpRequest', req, res);
-		  });
-		}).listen(port, address);
+    PlugAPI.prototype.listen = function (port, address) {
+      var self = this;
+      var querystring = require('querystring');
+      http.createServer(function (req, res) {
+        var dataStr = '';
+        req.on('data', function (chunk) {
+        dataStr += chunk.toString();
+        });
+        req.on('end', function () {
+        var data = querystring.parse(dataStr);
+        req._POST = data;
+        self.emit('httpRequest', req, res);
+        });
+      }).listen(port, address);
 	  };
 	  
 	  PlugAPI.prototype.tcpListen = function (port, address) {
-		var self = this;
-		net.createServer(function (socket) {
-		  socket.on('connect', function () {
-			self.emit('tcpConnect', socket);
-		  });
-		  socket.on('data', function (data) {
-			var msg = data.toString();
-			if (msg[msg.length - 1] == '\n') {
-			  self.emit('tcpMessage', socket, msg.substr(0, msg.length-1));
-			}
-		  });
-		  socket.on('end', function () {
-			self.emit('tcpEnd', socket);
-		  });
-		}).listen(port, address);
+      var self = this;
+      net.createServer(function (socket) {
+        socket.on('connect', function () {
+        self.emit('tcpConnect', socket);
+        });
+        socket.on('data', function (data) {
+        var msg = data.toString();
+        if (msg[msg.length - 1] == '\n') {
+          self.emit('tcpMessage', socket, msg.substr(0, msg.length-1), port);
+        }
+        });
+        socket.on('end', function () {
+        self.emit('tcpEnd', socket);
+        });
+      }).listen(port, address);
 	  };
     return PlugAPI;
 

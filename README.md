@@ -9,7 +9,7 @@ Due to a Plug update, the original version of PlugAPI from npm no longer works. 
 
 You'll need a few npm packages first. Run the following:
 
-```npm install node-uuid request uuid node-html-encoder cheerio ws```
+```cd plugapi && npm install```
 
 To connect, do this!
 
@@ -682,8 +682,9 @@ Example:
 		// executed when someone telnets into localhost port 6666
 	});
 
-	bot.on('tcpMessage', function(socket, msg) {
+	bot.on('tcpMessage', function(socket, msg, port) {
 		// Use socket.write, for example, to send output back to the telnet session
 		// 'msg' is whatever was entered by the user in the telnet session
+		// 'port' is the port the message came in on (to differentiate multiple listeners)
 	});
 ```
