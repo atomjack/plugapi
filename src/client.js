@@ -101,7 +101,7 @@
 
       this.roomId = false;
 
-      this.updateCode = updateCode != undefined ? updateCode : '$&2h72=^^@jdBf_n!`-38UHs';
+      this.updateCode = updateCode != undefined ? updateCode : '_:8s[H@*dnPe!nNerEM';
 
       if (!key) {
         throw new Error("You must pass the authentication cookie into the PlugAPI object to connect correctly");
