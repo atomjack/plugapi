@@ -127,6 +127,41 @@
       });
     };
 
+    PlugAPI.getUpdateCode = function(auth, room, callback) {
+      var jar = request.jar();
+      jar.setCookie("usr=" + auth, "http://plug.dj", {}, function(){});
+      request({
+        uri: "http://plug.dj/" + room,
+        method: 'GET',
+        jar: jar
+      }, function(error, response, body) {
+        if(error) {
+          console.log("error: ", error);
+        }
+        var match = /(\/_\/static\/js\/room\.[^\.]+\.js)/.exec(body);
+        if(match == null) {
+          if(typeof callback == 'function')
+            callback("Invalid auth.", false);
+          return;
+        }
+        var url = "http://plug.dj" + match[1];
+        request({
+          uri: url,
+          method: 'GET'
+        }, function(error, response, body) {
+          var m = /var [a-z]=\"([^\"]+)\",[a-z]="([^"]+)",[a-z]="([^"]+)",[a-z]=[a-z]\+[a-z]\+[a-z];return [a-z]/.exec(body);
+          if(m == null) {
+            if(typeof callback == 'function')
+              callback("Something went wrong, sorry.", false);
+            return;
+          }
+          var updateCode = m[1] + m[2] + m[3];
+          if(typeof callback == 'function')
+            callback(false, updateCode);
+        });
+      });
+    };
+    
     PlugAPI.prototype.setLogObject = function(c) {
       return logger = c;
     };

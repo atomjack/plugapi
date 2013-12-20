@@ -16,7 +16,10 @@ To connect, do this!
 ```
 var PlugAPI = require('./plugapi'); // git clone (or unzip) into the same directory as your .js file. There should be plugapi/package.json, for example (and other files)
 var ROOM = 'chillout-mixer-ambient-triphop';
-var UPDATECODE = '$&2h72=^^@jdBf_n!`-38UHs'; // We're not quite sure what this is yet, but the API doesn't work without it. It's possible that a future Plug update will change this, so check back here to see if this has changed, and set appropriately, if it has. You can omit using it if you wish - the value as of writing needs to be '$&2h72=^^@jdBf_n!`-38UHs', and is hardcoded into the bot in the event it is not specified below.
+~~var UPDATECODE = '$&2h72=^^@jdBf_n!`-38UHs'; // We're not quite sure what this is yet, but the API doesn't work without it. It's possible that a future Plug update will change this, so check back here to see if this has changed, and set appropriately, if it has. You can omit using it if you wish - the value as of writing needs to be '$&2h72=^^@jdBf_n!`-38UHs', and is hardcoded into the bot in the event it is not specified below.~~
+I've added a static method to try to obtain the update code from the javascript. It's obscured pretty well, so if Plug changes how it is stored and used, the getUpdateCode method will most likely break.
+
+Current update code: _:8s[H@*dnPe!nNerEM
 
 // Instead of providing the AUTH, you can use this static method to get the AUTH cookie via twitter login credentials:
 PlugAPI.getAuth({
@@ -27,17 +30,25 @@ PlugAPI.getAuth({
 		console.log("An error occurred: " + err);
 		return;
 	}
-	var bot = new PlugAPI(auth, UPDATECODE);
-	bot.connect(ROOM);
+	PlugAPI.getUpdateCode(auth, ROOM, function(error, updateCode) {
+      if(error === false) {
+		var bot = new PlugAPI(auth, updateCode);
+		bot.connect(ROOM);
 
-	bot.on('roomJoin', function(data) {
-		// data object has information on the room - list of users, song currently playing, etc.
-		console.log("Joined " + ROOM + ": ", data);
+		bot.on('roomJoin', function(data) {
+			// data object has information on the room - list of users, song currently playing, etc.
+			console.log("Joined " + ROOM + ": ", data);
+		});
+	  } else {
+		console.log(error);
+	  }
 	});
 });
 
 
 ```
+
+It's not necessary to call getAuth and getUpdateCode every time the bot is run. Plug stores the auth cookie in your browser for 6 months, so it's possible you'd never need to change it. However, every time Plug does a system update, the updateCode changes. The above example is the simplest way of connecting the bot. A better way would be to store the auth cookie and have your bot load it on startup (only running getAuth when it hasn't been saved yet). For updateCode, I haven't yet figured out how to make the bot aware if the updateCode is incorrect.
 
 ##Examples
 Here are some bots using this API. Check out how they did it!
