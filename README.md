@@ -505,7 +505,10 @@ Moves a DJ to a new position in the waitlist.  Waitlist numbering beings with po
 ```
 bot.moveDJ('xxxxxxxxxxxxxxxxxxxxxxxx',4);
 ```
-#### skipSong: ([ callback:fn ])
+#### skipSong: (userid, [ callback:fn ])
+
+##### userid
+*<small>string (required)</small>* - The user id of the currently playing DJ.
 
 Skips the current song. You need to be DJ or have the permission to skip a song.
 
