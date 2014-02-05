@@ -73,6 +73,8 @@
 
       this.moderateRemoveDJ = __bind(this.moderateRemoveDJ, this);
 
+      this.moderatePermissions = __bind(this.moderatePermissions, this);
+      
       this.initRoom = __bind(this.initRoom, this);
 
       this.joinRoom = __bind(this.joinRoom, this);
@@ -542,6 +544,10 @@
 
     PlugAPI.prototype.moderateRemoveDJ = function(userid) {
       return this.removeDj(userid);
+    };
+    
+    PlugAPI.prototype.moderatePermissions = function(userid, permission, callback) {
+      return this.sendRPC("moderate.permissions", [userid, permission], callback);
     };
 
     PlugAPI.prototype.moderateAddDJ = function(userid, callback) {
