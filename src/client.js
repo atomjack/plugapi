@@ -88,6 +88,8 @@
       this.activatePlaylist = __bind(this.activatePlaylist, this);
 
       this.playlistMoveSong = __bind(this.playlistMoveSong, this);
+      
+      this.deleteChat = __bind(this.deleteChat, this);
 
       this.getDJHistory = __bind(this.getDJHistory, this);
       
@@ -663,6 +665,10 @@
 
     PlugAPI.prototype.playlistMoveSong = function(playlist, song_id, position, callback) {
       return this.sendRPC("playlist.media.move", [playlist.id, playlist.items[position], [song_id]], callback);
+    };
+    
+    PlugAPI.prototype.deleteChat = function(chatID, callback) {
+      return this.sendRPC("moderate.chat_delete", [chatID], callback);
     };
 
     PlugAPI.prototype.getDJHistory = function(room, callback) {
