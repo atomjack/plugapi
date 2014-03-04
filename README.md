@@ -18,7 +18,7 @@ var PlugAPI = require('./plugapi'); // git clone (or unzip) into the same direct
 var ROOM = 'chillout-mixer-ambient-triphop';
 //Plug changed the update code again, as well as how it is stored, which broke my static method which could be used to get it. So, for now, it must be hardcoded.
 
-Current update code: 4w@fWs$
+Current update code: h90
 
 // Instead of providing the AUTH, you can use this static method to get the AUTH cookie via twitter login credentials:
 PlugAPI.getAuth({
@@ -37,20 +37,19 @@ PlugAPI.getAuth({
 		console.log("Joined " + ROOM + ": ", data);
 	});
 	
-	// Plug made some more changes which makes the getUpdateCode method no longer work, so just ignore the below for now
-//	PlugAPI.getUpdateCode(auth, ROOM, function(error, updateCode) {
-//      if(error === false) {
-//		var bot = new PlugAPI(auth, updateCode);
-//		bot.connect(ROOM);
-//
-//		bot.on('roomJoin', function(data) {
-//			// data object has information on the room - list of users, song currently playing, etc.
-//			console.log("Joined " + ROOM + ": ", data);
-//		});
-//	  } else {
-//		console.log(error);
-//	  }
-//	});
+	PlugAPI.getUpdateCode(auth, ROOM, function(error, updateCode) {
+      if(error === false) {
+		var bot = new PlugAPI(auth, updateCode);
+		bot.connect(ROOM);
+
+		bot.on('roomJoin', function(data) {
+			// data object has information on the room - list of users, song currently playing, etc.
+			console.log("Joined " + ROOM + ": ", data);
+		});
+	  } else {
+		console.log(error);
+	  }
+	});
 });
 
 

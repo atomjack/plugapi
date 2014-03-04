@@ -158,17 +158,27 @@
           uri: url,
           method: 'GET'
         }, function(error, response, body) {
-          var m = /var [a-z]="([^"]+)",((?:[a-z]="[^"]+",?)+);return [a-z\+]/.exec(body);
+          var m = /var ([a-z]="[^"]+"),((?:[a-z]="[^"]+",?)+);return ([a-z\+]+)/.exec(body);
           if(m == null) {
             console.log("Something went wrong, sorry.");
           } else {
-            var updateCode = m[1];
-            var keyval = m[2].split(",");
+						var pairs = {};
+						var n = /([a-z])="([^"]+)/.exec(m[1]);
+						pairs[n[1]] = n[2];
+
+						var keyval = m[2].split(",");
             // m[2] contains the rest of the code, in at least one key=value pair, so let's extract it with another regex
             for(var i=0;i<keyval.length;i++) {
-              var n = /[a-z]="([^"]+)/.exec(keyval[i]);
-              updateCode += n[1];
+              var n = /([a-z])="([^"]+)/.exec(keyval[i]);
+              pairs[n[1]] = n[2];
             }
+						
+						// m[3] contains the order the pairs should be assembled
+						var asm = m[3].split("+");
+						var updateCode = "";
+						for(var i=0;i<asm.length;i++) {
+							updateCode += pairs[asm[i]];
+						}
             if(typeof callback == 'function')
               callback(false, updateCode);
           }
