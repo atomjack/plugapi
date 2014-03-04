@@ -14,11 +14,10 @@ You'll need a few npm packages first. Run the following:
 To connect, do this!
 
 ```
-var PlugAPI = require('./plugapi'); // git clone (or unzip) into the same directory as your .js file. There should be plugapi/package.json, for example (and other files)
-var ROOM = 'chillout-mixer-ambient-triphop';
+var authCode = 'h90',
+  PlugAPI = require('./plugapi'), // git clone (or unzip) into the same directory as your .js file. There should be plugapi/package.json, for example (and other files)
+  ROOM = 'chillout-mixer-ambient-triphop';
 //Plug changed the update code again, as well as how it is stored, which broke my static method which could be used to get it. So, for now, it must be hardcoded.
-
-Current update code: 4w@fWs$
 
 // Instead of providing the AUTH, you can use this static method to get the AUTH cookie via twitter login credentials:
 PlugAPI.getAuth({
@@ -29,7 +28,7 @@ PlugAPI.getAuth({
 		console.log("An error occurred: " + err);
 		return;
 	}
-	var bot = new PlugAPI(auth, '4w@fWs$');
+	var bot = new PlugAPI(auth, authCode);
 	bot.connect(ROOM);
 
 	bot.on('roomJoin', function(data) {
