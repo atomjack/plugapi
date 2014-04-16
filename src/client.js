@@ -556,12 +556,12 @@
     };
 
     PlugAPI.prototype.upvote = function(callback) {
-      this.actionRPC("room.cast", [true, this.historyID, this.lastHistoryID === this.historyID], callback);
+      this.actionRPC("room.cast_1", [true, this.historyID, this.lastHistoryID === this.historyID], callback);
       return this.lastHistoryID = this.historyID;
     };
 
     PlugAPI.prototype.downvote = function(callback) {
-      this.actionRPC("room.cast", [false, this.historyID, this.lastHistoryID === this.historyID], callback);
+      this.actionRPC("room.cast_1", [false, this.historyID, this.lastHistoryID === this.historyID], callback);
       return this.lastHistoryID = this.historyID;
     };
 
