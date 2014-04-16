@@ -776,7 +776,7 @@
     };
 
     PlugAPI.prototype.getDJHistory = function(room, callback) {
-      return this.actionRPC('history.select_1', room, callback);
+      return this.actionRPC('history.select_1', [room], callback);
     };
 
     PlugAPI.prototype.fanUser = function(userid, callback) {
