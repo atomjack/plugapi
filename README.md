@@ -4,6 +4,10 @@ plugapi
 A generic API for creating Plug.dj bots
 
 
+### Deprecated
+
+I will no longer be developing this fork of plugapi, due to the continued updates Plug keeps making that break it. I have written a new API that uses phantomjs to create a virtual browser to allow the use of Plug's official API. You can get it here: https://github.com/atomjack/plugbotapi
+
 ## How to use
 Due to a Plug update, the original version of PlugAPI from npm no longer works. You will have to use this fork for now.
 
